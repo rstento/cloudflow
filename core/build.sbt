@@ -52,6 +52,7 @@ lazy val streamlets =
             SprayJson,
             Ficus,
             Bijection,
+            ScalaPbRuntime,
             ScalaTest
           )
     )
@@ -148,6 +149,12 @@ lazy val akkastreamTests =
           )
     )
     .settings(
+      (sourceGenerators in Test) += (avroScalaGenerateSpecific in Test).taskValue,
+      inConfig(Test)(sbtprotoc.ProtocPlugin.protobufConfigSettings),
+      PB.targets in Compile := Seq(
+        scalapb.gen() -> (sourceManaged in Compile).value / "sproto"
+      ),
+      PB.protoSources in Compile := Seq(baseDirectory.value / "src/test/protobuf"),
       (sourceGenerators in Test) += (avroScalaGenerateSpecific in Test).taskValue
     )
 
