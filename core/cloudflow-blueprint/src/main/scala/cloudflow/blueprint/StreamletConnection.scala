@@ -17,7 +17,6 @@
 package cloudflow.blueprint
 
 import org.apache.avro._
-
 import com.typesafe.config.Config
 
 final case class StreamletConnection(
@@ -57,8 +56,8 @@ final case class StreamletConnection(
       to = verified.fold(verifiedToPath)(_.verifiedInlet.portPath.toString)
     )
   }
-
-  val AvroFormat = "avro"
+  val AvroFormat  = "avro"
+  val ProtoFormat = "proto"
 
   /**
    * Schema resolution is done based on the information in http://avro.apache.org/docs/current/spec.html#Schema+Resolution
@@ -79,5 +78,8 @@ final case class StreamletConnection(
       if (result == SchemaCompatibility.SchemaCompatibilityType.COMPATIBLE)
         Right(VerifiedStreamletConnection(verifiedOutlet, verifiedInlet, label))
       else Left(IncompatibleSchema(verifiedOutlet.portPath, verifiedInlet.portPath))
+    } else if (verifiedOutlet.schemaDescriptor.format == ProtoFormat) {
+      // TODO schema compatibility test needs to be added here.
+      Left(IncompatibleSchema(verifiedOutlet.portPath, verifiedInlet.portPath))
     } else Left(IncompatibleSchema(verifiedOutlet.portPath, verifiedInlet.portPath))
 }
