@@ -20,7 +20,7 @@ import cloudflow.streamlets._
 
 import scalapb.{ GeneratedMessage, GeneratedMessageCompanion }
 
-case class ProtoInlet[T <: GeneratedMessage: GeneratedMessageCompanion](name: String, hasUniqueGroupId: Boolean = false)
+final case class ProtoInlet[T <: GeneratedMessage: GeneratedMessageCompanion](name: String, hasUniqueGroupId: Boolean = false)
     extends CodecInlet[T] {
   val cmp                              = implicitly[GeneratedMessageCompanion[T]]
   val codec                            = new ProtoCodec[T]
