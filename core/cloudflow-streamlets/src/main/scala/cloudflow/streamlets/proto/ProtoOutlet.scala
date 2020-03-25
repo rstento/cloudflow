@@ -20,7 +20,7 @@ import cloudflow.streamlets._
 
 import scalapb.{ GeneratedMessage, GeneratedMessageCompanion }
 
-case class ProtoOutlet[T <: GeneratedMessage: GeneratedMessageCompanion](
+final case class ProtoOutlet[T <: GeneratedMessage: GeneratedMessageCompanion](
     name: String,
     partitioner: T ⇒ String
 ) extends CodecOutlet[T] {
