@@ -25,7 +25,7 @@ final case class ProtoOutlet[T <: GeneratedMessage: GeneratedMessageCompanion](
     partitioner: T ⇒ String
 ) extends CodecOutlet[T] {
   val cmp              = implicitly[GeneratedMessageCompanion[T]]
-  def codec            = new ProtoCodec[T]
+  val codec            = new ProtoCodec[T]
   def schemaAsString   = cmp.scalaDescriptor.asProto.toProtoString
   def schemaDefinition = ProtoUtil.createSchemaDefinition(cmp.scalaDescriptor)
 
