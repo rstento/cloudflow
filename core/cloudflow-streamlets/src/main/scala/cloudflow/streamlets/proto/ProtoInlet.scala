@@ -26,5 +26,5 @@ case class ProtoInlet[T <: GeneratedMessage: GeneratedMessageCompanion](name: St
   def codec                            = new ProtoCodec[T]
   def schemaAsString                   = cmp.scalaDescriptor.asProto.toProtoString
   def schemaDefinition                 = ProtoUtil.createSchemaDefinition(cmp.scalaDescriptor)
-  def withUniqueGroupId: ProtoInlet[T] = copy(hasUniqueGroupId = true)
+  def withUniqueGroupId: ProtoInlet[T] = if (hasUniqueGroupId) this else copy(hasUniqueGroupId = true)
 }
